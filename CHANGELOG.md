@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## [1.7.1](https://github.com/meabed/agenda-ts/compare/v1.7.0...v1.7.1) (2025-12-31)
+- support mongo driver version 7.x and 6.x
+- add ci tests for mongo driver 6.x
+
 ## [1.7.0](https://github.com/meabed/agenda-ts/compare/v1.6.8...v1.7.0) (2025-12-31)
 - updated all dependencies to latest versions
 - removed mongo-memory-server as dev dependency
