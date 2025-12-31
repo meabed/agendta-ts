@@ -13,7 +13,7 @@
     "queue",
     "delayed",
     "scheduler",
-    "pulse",
+    "agenda",
     "bull",
     "bee",
     "kue"
