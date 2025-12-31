@@ -1,5 +1,7 @@
 name: Test Coverage Comment
 on:
+  workflow_dispatch:
+  workflow_call:
   pull_request:
     types: [opened, reopened, edited, synchronize]
   push:
