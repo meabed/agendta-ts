@@ -1,12 +1,12 @@
 import express from 'express';
-import Pulse, { JobAttributesData } from '@pulsecron/pulse';
+import Agenda, { JobAttributesData } from 'agenda-ts';
 
 const app = express();
 const port = 3000; // You can choose any port that is free on your system
 
-// Pulse setup
-const mongoConnectionString = 'mongodb://localhost:27017/pulse';
-const pulse = new Pulse({
+// Agenda setup
+const mongoConnectionString = 'mongodb://localhost:27017/agenda';
+const agenda = new Agenda({
   db: { address: mongoConnectionString, collection: 'cronjob' },
   defaultConcurrency: 4,
   maxConcurrency: 4,
@@ -19,7 +19,7 @@ interface ProcessJobData extends JobAttributesData {
 }
 
 // Define jobs
-pulse.define<ProcessJobData>(
+agenda.define<ProcessJobData>(
   'send nudge email',
   async (job, done) => {
     const { to } = job.attrs.data;
@@ -29,7 +29,7 @@ pulse.define<ProcessJobData>(
   { shouldSaveResult: true, attempts: 1, backoff: { type: 'fixed', delay: 60000 } }
 );
 
-pulse.define<ProcessJobData>(
+agenda.define<ProcessJobData>(
   'send weekly report',
   async (job, done) => {
     const { to } = job.attrs.data;
@@ -42,8 +42,8 @@ pulse.define<ProcessJobData>(
 // Express routes to trigger jobs
 app.post('/send-nudge-email', async (req, res) => {
   try {
-    await pulse.start();
-    const job = pulse.create('send nudge email', { to: req.body.to });
+    await agenda.start();
+    const job = agenda.create('send nudge email', { to: req.body.to });
     await job.schedule(new Date(Date.now() + 3 * 24 * 60 * 60 * 1000)).save();
     res.status(200).send('Nudge email scheduled successfully');
   } catch (error) {
@@ -54,8 +54,8 @@ app.post('/send-nudge-email', async (req, res) => {
 
 app.post('/send-weekly-report', async (req, res) => {
   try {
-    await pulse.start();
-    const job = pulse.create('send weekly report', { to: req.body.to });
+    await agenda.start();
+    const job = agenda.create('send weekly report', { to: req.body.to });
     await job.repeatEvery('1 week').save();
     res.status(200).send('Weekly report scheduled successfully');
   } catch (error) {
@@ -64,19 +64,19 @@ app.post('/send-weekly-report', async (req, res) => {
   }
 });
 
-pulse.on('ready', (job) => {
-  console.log(time(), 'Pulse is ready');
+agenda.on('ready', (job) => {
+  console.log(time(), 'Agenda is ready');
 });
-pulse.on('start', (job) => {
+agenda.on('start', (job) => {
   console.log(time(), `Job <${job.attrs.name}> starting`);
 });
-pulse.on('success', (job) => {
+agenda.on('success', (job) => {
   console.log(time(), `Job <${job.attrs.name}> succeeded`);
 });
-pulse.on('fail', (error, job) => {
+agenda.on('fail', (error, job) => {
   console.log(time(), `Job <${job.attrs.name}> failed:`, error);
 });
-pulse.on('complete', async (job) => {
+agenda.on('complete', async (job) => {
   console.log(time(), `Job <${job.attrs.name}> completed`);
 });
 

@@ -18,16 +18,16 @@
     "bee",
     "kue"
   ],
-  "homepage": "https://pulsecron.com",
+  "homepage": "https://github.com/meabed/agenda-ts",
   "bugs": {
     "url": "https://github.com/meabed/agenda-ts/issues"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/pulsecron/pulse.git"
+    "url": "https://github.com/meabed/agenda-ts.git"
   },
   "license": "MIT",
-  "author": "Mohamed Meabed <mo@meabed.com>",
+  "author": "Mohamed Meabed <mo.meabed@gmail.com>",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "directories": {

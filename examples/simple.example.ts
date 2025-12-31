@@ -1,22 +1,22 @@
-import Pulse from '@pulsecron/pulse';
+import Agenda from 'agenda-ts';
 
-const mongoConnectionString = 'mongodb://localhost:27017/pulse';
+const mongoConnectionString = 'mongodb://localhost:27017/agenda';
 
-const pulse = new Pulse({ db: { address: mongoConnectionString } });
+const agenda = new Agenda({ db: { address: mongoConnectionString } });
 
 // Or override the default collection name:
-// const pulse = new Pulse({db: {address: mongoConnectionString, collection: 'jobCollectionName'}});
+// const agenda = new Agenda({db: {address: mongoConnectionString, collection: 'jobCollectionName'}});
 
 // or pass additional connection options:
-// const pulse = new Pulse({db: {address: mongoConnectionString, collection: 'jobCollectionName', options: {ssl: true}}});
+// const agenda = new Agenda({db: {address: mongoConnectionString, collection: 'jobCollectionName', options: {ssl: true}}});
 
 // or pass in an existing mongodb-native MongoClient instance
-// const pulse = new Pulse({mongo: myMongoClient});
+// const agenda = new Agenda({mongo: myMongoClient});
 
 /**
  * Example of defining a job
  */
-pulse.define('delete old users', async (job) => {
+agenda.define('delete old users', async (job) => {
   console.log('Deleting old users...');
   return;
 });
@@ -26,18 +26,18 @@ pulse.define('delete old users', async (job) => {
  */
 (async function () {
   // IIFE to give access to async/await
-  await pulse.start();
+  await agenda.start();
 
-  await pulse.every('3 minutes', 'delete old users');
+  await agenda.every('3 minutes', 'delete old users');
 
   // Alternatively, you could also do:
-  await pulse.every('*/3 * * * *', 'delete old users');
+  await agenda.every('*/3 * * * *', 'delete old users');
 })();
 
 /**
  * Example of defining a job with options
  */
-pulse.define(
+agenda.define(
   'send email report',
   async (job) => {
     const { to } = job.attrs.data;
@@ -51,29 +51,29 @@ pulse.define(
  * Example of scheduling a job
  */
 (async function () {
-  await pulse.start();
-  await pulse.schedule('in 20 minutes', 'send email report', { to: 'admin@example.com' });
+  await agenda.start();
+  await agenda.schedule('in 20 minutes', 'send email report', { to: 'admin@example.com' });
 })();
 
 /**
  * Example of repeating a job
  */
 (async function () {
-  const weeklyReport = pulse.create('send email report', { to: 'example@example.com' });
-  await pulse.start();
+  const weeklyReport = agenda.create('send email report', { to: 'example@example.com' });
+  await agenda.start();
   await weeklyReport.repeatEvery('1 week').save();
 })();
 
 /**
  * Check job start and completion/failure
  */
-pulse.on('start', (job) => {
+agenda.on('start', (job) => {
   console.log(time(), `Job <${job.attrs.name}> starting`);
 });
-pulse.on('success', (job) => {
+agenda.on('success', (job) => {
   console.log(time(), `Job <${job.attrs.name}> succeeded`);
 });
-pulse.on('fail', (error, job) => {
+agenda.on('fail', (error, job) => {
   console.log(time(), `Job <${job.attrs.name}> failed:`, error);
 });
 

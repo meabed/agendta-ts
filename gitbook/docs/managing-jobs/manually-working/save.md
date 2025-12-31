@@ -12,9 +12,9 @@ The `save` method commits the current state of a job to the MongoDB database. Th
 
 {% code fullWidth="false" %}
 ```typescript
-const pulse = new Pulse();
+const agenda = new Agenda();
 
-const job = pulse.create('delete old users', { to: 'pulsecron@gmail.com' });
+const job = agenda.create('delete old users', { to: 'user@example.com' });
 job.save();
 
 
@@ -29,7 +29,12 @@ job.save();
 
 * **`Promise<Job>`**: A promise that resolves with the updated job instance once the save operation completes successfully. If there is an error during the save operation, the promise will reject with an error.
 
-\
+
+
+
+
+
+
 
 
 

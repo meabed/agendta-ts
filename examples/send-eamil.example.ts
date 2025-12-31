@@ -1,6 +1,6 @@
 import express from 'express';
 import nodemailer from 'nodemailer';
-import Pulse, { JobAttributesData } from '@pulsecron/pulse';
+import Agenda, { JobAttributesData } from 'agenda-ts';
 const app = express();
 const port = 3000; // You can choose any port that is free on your system
 
@@ -12,9 +12,9 @@ const transporter = nodemailer.createTransport({
   },
 });
 
-// Pulse setup
-const mongoConnectionString = 'mongodb://localhost:27017/pulse';
-const pulse = new Pulse({
+// Agenda setup
+const mongoConnectionString = 'mongodb://localhost:27017/agenda';
+const agenda = new Agenda({
   db: { address: mongoConnectionString, collection: 'cronjob' },
   defaultConcurrency: 4,
   maxConcurrency: 4,
@@ -26,7 +26,7 @@ interface ProcessJobData extends JobAttributesData {
   to: string;
 }
 
-pulse.define(
+agenda.define(
   'send email',
   async (job, done) => {
     const { to, subject, text } = job.attrs.data;
@@ -51,9 +51,9 @@ pulse.define(
 
 app.post('/send-email', async (req, res) => {
   try {
-    await pulse.start();
+    await agenda.start();
     const { to, subject, text, scheduleTime } = req.body;
-    const job = pulse.create('send email', { to, subject, text });
+    const job = agenda.create('send email', { to, subject, text });
     await job.schedule(new Date(scheduleTime)).save();
     res.status(200).send('Email scheduled successfully');
   } catch (error) {
@@ -62,11 +62,11 @@ app.post('/send-email', async (req, res) => {
   }
 });
 
-pulse.on('success', (job) => {
+agenda.on('success', (job) => {
   console.log(`Job <${job.attrs.name}> succeeded`);
 });
 
-pulse.on('fail', (error, job) => {
+agenda.on('fail', (error, job) => {
   console.log(`Job <${job.attrs.name}> failed:`, error);
 });
 
