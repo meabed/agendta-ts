@@ -7,11 +7,15 @@
 <p align="center">
     <em>The modern MongoDB-powered job scheduler library for Node.js</em>
 </p>
+
 <p align="center">
-			<img src="https://img.shields.io/github/license/meabed/agenda-ts?style=default&logo=opensourceinitiative&logoColor=white&color=24E0A4" alt="license">
-	<img src="https://img.shields.io/github/last-commit/meabed/agenda-ts?style=default&logo=git&logoColor=white&color=24E0A4" alt="last-commit">
-	<img src="https://img.shields.io/github/languages/top/meabed/agenda-ts?style=default&color=24E0A4" alt="repo-top-language">
-	<img src="https://img.shields.io/github/languages/count/meabed/agenda-ts?style=default&color=24E0A4" alt="repo-language-count">
+[![NPM version](https://img.shields.io/npm/v/agenda-ts)](https://npm.im/agenda-ts)
+[![Build Status](https://github.com/meabed/agenda-ts/workflows/CI/badge.svg)](https://github.com/meabed/agenda-ts/actions)
+[![Test Coverage](https://img.shields.io/badge/coverage-91.62%25-brightgreen)](https://github.com/meabed/agenda-ts)
+[![Downloads](https://img.shields.io/npm/dm/agenda-ts.svg)](https://www.npmjs.com/package/agenda-ts)
+[![License](https://img.shields.io/npm/l/agenda-ts)](https://github.com/meabed/agenda-ts/blob/master/LICENSE)
+[![TypeScript](https://img.shields.io/badge/TypeScript-5.9-blue)](https://www.typescriptlang.org/)
+[![Node](https://img.shields.io/node/v/agenda-ts)](https://nodejs.org)
 <p>
 
 <p align="center">
@@ -34,7 +38,6 @@
 - [Getting Started](#getting-started)
     - [Installation](#installation)
     - [Example](#example)
-- [Project Roadmap](#project-roadmap)
 - [Contributing](#contributing)
 - [License](#license)
 - [Acknowledgments](#acknowledgments)
@@ -283,17 +286,6 @@ function time() {
 <br/>
 <br/>
 
-##  Project Roadmap
-
-- [X] **Add Support for Latest Mongoose Version(8.x.x)**: Upgrade Agenda-TS to be fully compatible with the latest version of Mongoose. This will enable Agenda-TS to leverage the newest features and improvements in Mongoose, ensuring better performance, stability, and security for applications that rely on MongoDB through Mongoose.
-- [X] **Refactoring to Modern TypeScript Syntax**: Undertake a comprehensive refactor of the codebase to utilize modern TypeScript features and syntax. This refactoring will improve code readability, maintainability, and make it easier for new contributors to understand and contribute to the project.
-- [X] **Resolving Issues in Existing Agenda Projects**: Actively address and resolve outstanding issues within the original Agenda project. This initiative not only aids the community by improving the legacy codebase but also informs the development of Agenda by identifying and addressing past challenges.
-- [ ] **Rewrite Test Code**: Revamp our testing suite to increase coverage and ensure tests are up-to-date with modern testing practices. This rewrite aims to enhance test reliability and efficiency, facilitating smoother development and deployment cycles.
-- [X] **Rewrite Documentation**: Completely revise and update the documentation to reflect all new changes and features, ensure clarity of information, and improve navigation and readability for developers. This effort will include new getting started guides, API documentation, and use case examples to facilitate easier adoption and implementation by users.
----
-<br/>
-<br/>
-
 ##  Contributing
 
 Contributions are welcome! Here are several ways you can contribute:
@@ -343,4 +335,4 @@ Contributions are welcome! Here are several ways you can contribute:
 
 ##  License
 
-This project is protected under the [MIT](https://github.com/meabed/agenda-ts?tab=MIT-1-ov-file#readme) License. For more details, refer to the [LICENSE](https://github.com/meabed/agenda-ts?tab=MIT-1-ov-file#readme) file.
+This project is protected under the [MIT](https://github.com/meabed/agenda-ts?tab=MIT-1-ov-file#readme) License.
