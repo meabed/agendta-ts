@@ -4,12 +4,22 @@ on:
     types: [opened, reopened, edited, synchronize]
   push:
     branches:
-      - main
+      - master
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+  CI: true
+
 jobs:
   build:
-    runs-on: ubuntu-latest
-    services:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 12
 
+    services:
       mongodb:
         image: mongo:8
         ports:
