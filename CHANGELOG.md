@@ -1,5 +1,14 @@
 # CHANGELOG
 
+## [1.7.0](https://github.com/meabed/agenda-ts/compare/v1.6.8...v1.7.0) (2025-12-31)
+- updated all dependencies to latest versions
+- removed mongo-memory-server as dev dependency
+- update mongo driver to version 7.x
+- updated TypeScript to version 5.x
+- migrate eslint to oxlint
+- updated ci/cd pipeline for better testing and release process
+- Release update package to version 1.7.0
+
 ## [1.6.8](https://github.com/meabed/agenda-ts/compare/v1.6.7...v1.6.8) (2025-03-12)
 
 
