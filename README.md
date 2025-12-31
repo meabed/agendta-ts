@@ -57,9 +57,9 @@ Agenda-TS is a modern TypeScript fork of the [Agenda](https://github.com/agenda/
 <br/>
 
 
-##  Unique Features in Agenda-TS
+##  Unique Features in Agenda
 
-- **Latest MongoDB Driver Support**: Agenda-TS is fully compatible with the latest MongoDB driver, ensuring users can take advantage of the most current database features and enhancements.
+- **Latest MongoDB Driver Support**: Agenda is fully compatible with the latest MongoDB driver, ensuring users can take advantage of the most current database features and enhancements.
 - **Resume Incomplete Tasks After System Restart**: When the system restarts, Agenda-TS resumes incomplete tasks that were in progress or queued for execution, providing seamless continuation without manual intervention.
 - **Retry Failed Tasks**: Agenda-TS offers retry mechanisms using exponential and fixed backoff strategies with configurable attempts, ensuring efficient retries of failed tasks without overwhelming the system.
 - **Continuous Maintenance**: As an open-source project actively maintained, Agenda-TS is consistently improved, providing users with reliable updates and support.
@@ -72,7 +72,7 @@ Agenda-TS is a modern TypeScript fork of the [Agenda](https://github.com/agenda/
 ##  Repository Structure
 
 ```sh
-└── agenda-ts/
+└── agenda/
     ├── LICENSE
     ├── README.md
     ├── es.js
@@ -344,11 +344,3 @@ Contributions are welcome! Here are several ways you can contribute:
 ##  License
 
 This project is protected under the [MIT](https://github.com/meabed/agenda-ts?tab=MIT-1-ov-file#readme) License. For more details, refer to the [LICENSE](https://github.com/meabed/agenda-ts?tab=MIT-1-ov-file#readme) file.
-
----
-<br/>
-<br/>
-
-
-##  Acknowledgments
-- Agenda-TS is maintained by [Mohamed Meabed](https://github.com/meabed) and was forked from the [Agenda](https://github.com/agenda/agenda) project.
