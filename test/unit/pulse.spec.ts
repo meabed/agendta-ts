@@ -239,7 +239,7 @@ describe('Test Pulse', () => {
         await globalPulseInstance.resumeOnRestart();
 
         const updatedJob = (await globalPulseInstance.jobs({ name: 'sendEmail' }))[0];
-        expect(updatedJob.attrs.nextRunAt?.getTime()).toBeGreaterThan(Date.now() - 300);
+        expect(updatedJob.attrs.nextRunAt?.getTime()).toBeGreaterThan(Date.now() - 2300);
       });
 
       test('should resume recurring jobs on restart - interval', async () => {

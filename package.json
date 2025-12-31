@@ -61,7 +61,7 @@
     "debug": "~4.4.3",
     "human-interval": "~2.0.1",
     "moment-timezone": "^0.6.0",
-    "mongodb": "^6.5.0"
+    "mongodb": "^7.0.0"
   },
   "devDependencies": {
     "@istanbuljs/nyc-config-typescript": "^1.0.2",
