@@ -2,21 +2,23 @@
   <img src="./agenda.png" width="100" alt="project-logo">
 </p>
 <p align="center">
-            <h1 align="center">AGENDA-TS</h1>
+    <h1 align="center">AGENDA-TS</h1>
 </p>
 <p align="center">
     <em>The modern MongoDB-powered job scheduler library for Node.js</em>
 </p>
 
-<p align="center">
+<div align="center">
+
 [![NPM version](https://img.shields.io/npm/v/agenda-ts)](https://npm.im/agenda-ts)
-[![Build Status](https://github.com/meabed/agenda-ts/workflows/CI/badge.svg)](https://github.com/meabed/agenda-ts/actions)
+[![Build Status](https://github.com/meabed/agenda-ts/actions/workflows/release.yml/badge.svg)](https://github.com/meabed/agenda-ts/actions)
 [![Test Coverage](https://img.shields.io/badge/coverage-91.62%25-brightgreen)](https://github.com/meabed/agenda-ts)
 [![Downloads](https://img.shields.io/npm/dm/agenda-ts.svg)](https://www.npmjs.com/package/agenda-ts)
 [![License](https://img.shields.io/npm/l/agenda-ts)](https://github.com/meabed/agenda-ts/blob/master/LICENSE)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.9-blue)](https://www.typescriptlang.org/)
 [![Node](https://img.shields.io/node/v/agenda-ts)](https://nodejs.org)
-<p>
+
+</div>
 
 <p align="center">
 	<!-- default option, no dependency badges. -->
@@ -31,13 +33,13 @@
   <summary>Table of Contents</summary><br>
 
 - [Overview](#overview)
-    - [Related Projects](#related-projects)
+  - [Related Projects](#related-projects)
 - [Unique Features in Agenda-TS](#unique-features-in-agenda-ts)
 - [Repository Structure](#repository-structure)
 - [Modules](#modules)
 - [Getting Started](#getting-started)
-    - [Installation](#installation)
-    - [Example](#example)
+  - [Installation](#installation)
+  - [Example](#example)
 - [Contributing](#contributing)
 - [License](#license)
 - [Acknowledgments](#acknowledgments)
