@@ -10,5 +10,3 @@ export const priority: PriorityMethod = function (this: Job, priority) {
   this.attrs.priority = parsePriority(priority);
   return this;
 };
-
-

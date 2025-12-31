@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
   workflow_call:
   push:
-    branches: ["master"]
+    branches: [ "master" ]
 
 permissions:
   contents: read # for checkout
@@ -19,21 +19,18 @@ env:
 
 jobs:
   release:
-    name: release
     runs-on: ubuntu-24.04
     timeout-minutes: 12
-
+    permissions:
+      contents: write
+      issues: write
+      pull-requests: write
+      id-token: write
     services:
       mongodb:
         image: mongo:8
         ports:
           - 27017:27017
-
-    permissions:
-     contents: write
-     issues: write
-     pull-requests: write
-     id-token: write
     steps:
       - uses: actions/checkout@v6
       - uses: actions/setup-node@v6

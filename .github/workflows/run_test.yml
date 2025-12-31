@@ -3,7 +3,7 @@ on:
   workflow_dispatch:
   workflow_call:
   pull_request:
-    types: [opened, reopened, edited, synchronize]
+    types: [ opened, reopened, edited, synchronize ]
   push:
     branches:
       - master
@@ -20,7 +20,11 @@ jobs:
   build:
     runs-on: ubuntu-24.04
     timeout-minutes: 12
-
+    permissions:
+      contents: write
+      issues: write
+      pull-requests: write
+      id-token: write
     services:
       mongodb:
         image: mongo:8

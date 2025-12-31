@@ -40,6 +40,7 @@
   "scripts": {
     "build": "tsc",
     "dry-run": "npm publish --dry-run",
+    "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\" \"examples/**/*.ts\" \"./*.ts\"",
     "lint": "eslint src",
     "lint-fix": "eslint src --fix",
     "prepublishOnly": "npm run build",
@@ -47,7 +48,8 @@
     "semantic-release": "semantic-release",
     "test": "jest --detectOpenHandles --forceExit",
     "test:coverage": "jest --coverage",
-    "test:debug": "DEBUG=pulse:** jest"
+    "test:debug": "DEBUG=pulse:** jest",
+    "typecheck": "tsc --noEmit"
   },
   "config": {
     "blanket": {
