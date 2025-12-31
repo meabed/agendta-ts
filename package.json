@@ -1,6 +1,6 @@
 {
   "name": "agenda-ts",
-  "version": "1.6.9-beta.1",
+  "version": "1.6.9-beta.2",
   "description": "The modern MongoDB-powered job scheduler library for Node.js",
   "keywords": [
     "job",
