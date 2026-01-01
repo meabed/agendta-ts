@@ -1,7 +1,19 @@
 import { EventEmitter } from 'events';
 import humanInterval from 'human-interval';
-import { AnyError, Collection, MongoClient, MongoClientOptions, Db as MongoDb } from 'mongodb';
-import { Job } from '../job';
+import { AnyError, Collection, IndexSpecification, MongoClient, MongoClientOptions, Db as MongoDb } from 'mongodb';
+import { Job, JobAttributes } from '../job';
+
+/**
+ * Sort direction for MongoDB queries
+ */
+export type SortDirection = 1 | -1;
+
+/**
+ * Sort specification object for job queries
+ */
+export interface AgendaSortSpec {
+  [key: string]: SortDirection;
+}
 import { CancelMethod, cancel } from './cancel';
 import { CloseMethod, close } from './close';
 import { CountJobsMethod, countJobs } from './count-jobs';
@@ -11,7 +23,7 @@ import { DbInitMethod, dbInit } from './db-init';
 import { DefaultConcurrencyMethod, defaultConcurrency } from './default-concurrency';
 import { DefaultLockLifetimeMethod, defaultLockLifetime } from './default-lock-lifetime';
 import { DefaultLockLimitMethod, defaultLockLimit } from './default-lock-limit';
-import { DefineMethod, define } from './define';
+import { DefineMethod, define, JobDefinition } from './define';
 import { DisableMethod, disable } from './disable';
 import { DrainMethod, drain } from './drain';
 import { EnableMethod, enable } from './enable';
@@ -97,7 +109,7 @@ export interface AgendaConfig {
   lockLimit?: number;
   defaultLockLimit?: number;
   defaultLockLifetime?: number;
-  sort?: any;
+  sort?: AgendaSortSpec;
   mongo?: MongoDb;
   db?: {
     address: string;
@@ -131,13 +143,13 @@ export interface AgendaConfig {
  * @template JobNames - Union type of job name literals for type-safe event handling
  */
 class Agenda<JobNames extends string = string> extends EventEmitter {
-  private _lazyBindings: Record<string, any> = {};
-  _defaultConcurrency: any;
-  _defaultLockLifetime: any;
-  _defaultLockLimit: any;
-  _definitions: any;
+  private _lazyBindings: Record<string, Function> = {};
+  _defaultConcurrency: number;
+  _defaultLockLifetime: number;
+  _defaultLockLimit: number;
+  _definitions: Record<string, JobDefinition>;
   _findAndLockNextJob = findAndLockNextJob;
-  _indices: any;
+  _indices: IndexSpecification;
   _disableAutoIndex: boolean;
   _resumeOnRestart: boolean;
   _isLockingOnTheFly: boolean;
@@ -146,17 +158,19 @@ class Agenda<JobNames extends string = string> extends EventEmitter {
   _jobsToLock: Job[];
   _lockedJobs: Job[];
   _runningJobs: Job[];
-  _lockLimit: any;
-  _maxConcurrency: any;
+  _lockLimit: number;
+  _maxConcurrency: number;
   _mongoUseUnifiedTopology?: boolean;
-  _name: any;
+  _name?: string;
   _processEvery: number;
   _ready: Promise<unknown>;
-  _sort: any;
+  _sort: AgendaSortSpec;
   _db!: MongoClient;
   _mdb!: MongoDb;
-  _collection!: Collection;
+  _collection!: Collection<JobAttributes>;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   _nextScanAt: any;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   _processInterval: any;
   _readyAt: Date;
 
@@ -295,7 +309,7 @@ class Agenda<JobNames extends string = string> extends EventEmitter {
     return this.bindMethod('schedule', schedule);
   }
 
-  get sort(): SortMethod {
+  get sort(): SortMethod<JobNames> {
     return this.bindMethod('sort', sort);
   }
 

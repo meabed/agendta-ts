@@ -4,7 +4,7 @@ interface FetchStatusResponse {
   status: boolean;
   reason?: string;
   lastRunAt?: Date;
-  lockedAt?: Date;
+  lockedAt?: Date | null;
   lastFinishedAt?: Date;
 }
 

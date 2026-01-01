@@ -19,8 +19,8 @@ export const create: CreateMethod = function (this: Agenda, name, data) {
   const attempts = this._definitions[name] ? this._definitions[name].attempts || 0 : 0;
   const backoff = attempts
     ? this._definitions[name]
-      ? this._definitions[name].backoff || { type: 'exponential', delay: 1000 }
-      : { type: 'exponential', delay: 1000 }
+      ? this._definitions[name].backoff || { type: 'exponential' as const, delay: 1000 }
+      : { type: 'exponential' as const, delay: 1000 }
     : undefined;
 
   const job = new Job({

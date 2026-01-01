@@ -165,7 +165,8 @@ export const saveJob: SaveJobMethod = async function (this: Agenda, job) {
 
     // If all else fails, the job does not exist yet so we just insert it into MongoDB
     debug('using default behavior, inserting new job via insertOne() with props that were set: \n%O', props);
-    const result = await this._collection.insertOne(props);
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const result = await this._collection.insertOne(props as any);
     return await processDbResult.call(this, job, result);
   } catch (error) {
     debug('processDbResult() received an error, job was not updated/created');

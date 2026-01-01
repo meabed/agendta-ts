@@ -12,6 +12,26 @@ export enum JobPriority {
   lowest = -20,
 }
 
+/**
+ * Internal representation of a defined job
+ */
+export interface JobDefinition {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  fn: Processor<any>;
+  concurrency: number;
+  lockLimit: number;
+  priority: number | keyof typeof JobPriority;
+  lockLifetime: number;
+  running: number;
+  locked: number;
+  shouldSaveResult: boolean;
+  attempts: number;
+  backoff?: {
+    type: 'exponential' | 'fixed';
+    delay: number;
+  };
+}
+
 export interface DefineOptions {
   /**
    * Maximum number of that job that can be running at once (per instance of agenda)
@@ -67,7 +87,7 @@ export interface DefineOptions {
 
 export type Processor<T extends JobAttributesData> = (
   job: Job<T>,
-  done: (error?: Error, result?: unknown) => void
+  done?: (error?: Error, result?: unknown) => void
 ) => unknown | Promise<unknown>;
 
 export type DefineMethod<JobNames extends string = string> = <T extends JobAttributesData>(
@@ -96,10 +116,12 @@ export const define: DefineMethod = function (this: Agenda, name, processor, opt
     locked: 0,
     shouldSaveResult: options?.shouldSaveResult || false,
     attempts: options?.attempts || 0,
-    backoff: options?.attempts && {
-      type: options?.backoff?.type || 'exponential',
-      delay: options?.backoff?.delay || 1000,
-    },
+    backoff: options?.attempts
+      ? {
+          type: options?.backoff?.type || 'exponential',
+          delay: options?.backoff?.delay || 1000,
+        }
+      : undefined,
   };
 
   debug('job [%s] defined with following options: \n%O', name, this._definitions[name]);

@@ -1,9 +1,9 @@
 import createDebugger from 'debug';
-import { Agenda } from '.';
+import { Agenda, AgendaSortSpec } from '.';
 
 const debug = createDebugger('agenda:sort');
 
-export type SortMethod = (query: any) => Agenda;
+export type SortMethod<JobNames extends string = string> = (query: AgendaSortSpec) => Agenda<JobNames>;
 /**
  * Set the sort query for finding next job
  * Default is { nextRunAt: 1, priority: -1 }
