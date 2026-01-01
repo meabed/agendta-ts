@@ -5,7 +5,7 @@ import { Db } from 'mongodb';
 import { Agenda } from '../../src';
 import { Job } from '../../src';
 import { hasMongoProtocol } from '../../src/agenda/has-mongo-protocol';
-import { mockMongoDb } from '../helpers/mock.helper';
+import { mockMongoDb, stopMongoServer } from '../helpers/mock.helper';
 
 describe('Test Agenda', () => {
   const jobTimeout = 500;
@@ -40,10 +40,10 @@ describe('Test Agenda', () => {
     await globalAgendaInstance.stop();
   });
 
-  afterAll((done) => {
-    delay(50);
-    mongoDbDisconnect();
-    done();
+  afterAll(async () => {
+    await delay(50);
+    await mongoDbDisconnect();
+    await stopMongoServer();
   });
 
   describe('Test config', () => {
