@@ -40,6 +40,7 @@
 - [Getting Started](#getting-started)
   - [Installation](#installation)
   - [Example](#example)
+  - [TypeScript Support](#typescript-support)
 - [Contributing](#contributing)
 - [License](#license)
 - [Acknowledgments](#acknowledgments)
@@ -251,7 +252,7 @@ agenda.define(
  */
 (async function () {
   await agenda.start();
-  await agenda.schedule('in 20 minutes', 'send email report', { to: 'admin@example.com' });;
+  await agenda.schedule('in 20 minutes', 'send email report', { to: 'admin@example.com' });
 })();
 
 /**
@@ -281,6 +282,107 @@ function time() {
 }
 
 
+```
+
+#### TypeScript Support
+
+Agenda-TS provides first-class TypeScript support with type-safe job names and event listeners.
+
+**Typed Job Names**
+
+You can define your job names as a union type and pass it to the `Agenda` class for full type safety and autocomplete support:
+
+```typescript
+import Agenda from 'agenda-ts';
+
+// Define your job names as a union type
+type MyJobNames = 'sendEmail' | 'generateReport' | 'cleanupOldData';
+
+// Pass the job names type to Agenda
+const agenda = new Agenda<MyJobNames>({
+  db: { address: 'mongodb://localhost:27017/agenda' },
+});
+
+// Now you get autocomplete and type checking for job names
+agenda.define('sendEmail', async (job) => {
+  // ...
+});
+
+// TypeScript will error if you use an invalid job name
+// agenda.define('invalidJob', async (job) => {}); // Error!
+```
+
+**Typed Event Listeners**
+
+Agenda emits events for job lifecycle. With typed job names, you also get type-safe event listeners for job-specific events:
+
+```typescript
+type MyJobNames = 'sendEmail' | 'generateReport';
+
+const agenda = new Agenda<MyJobNames>({
+  db: { address: 'mongodb://localhost:27017/agenda' },
+});
+
+// Generic events (work for all jobs)
+agenda.on('start', (job) => {
+  console.log(`Job ${job.attrs.name} started`);
+});
+
+agenda.on('success', (job) => {
+  console.log(`Job ${job.attrs.name} completed`);
+});
+
+agenda.on('fail', (error, job) => {
+  console.log(`Job ${job.attrs.name} failed:`, error);
+});
+
+// Job-specific events with autocomplete support
+agenda.on('start:sendEmail', (job) => {
+  console.log('sendEmail job started');
+});
+
+agenda.on('success:generateReport', (job) => {
+  console.log('generateReport job succeeded');
+});
+
+agenda.on('fail:sendEmail', (error, job) => {
+  console.log('sendEmail failed:', error);
+});
+
+// TypeScript will error for invalid job-specific events
+// agenda.on('start:invalidJob', (job) => {}); // Error!
+```
+
+**Available Event Types**
+
+| Event | Description | Listener Signature |
+|-------|-------------|-------------------|
+| `ready` | Agenda connected to database | `() => void` |
+| `error` | An error occurred | `(error: Error) => void` |
+| `start` | A job started | `(job: Job) => void` |
+| `success` | A job completed successfully | `(job: Job) => void` |
+| `fail` | A job failed | `(error: Error, job: Job) => void` |
+| `complete` | A job completed (success or fail) | `(job: Job) => void` |
+| `cancel` | A job was cancelled | `(job: Job) => void` |
+| `start:<jobName>` | Specific job started | `(job: Job) => void` |
+| `success:<jobName>` | Specific job succeeded | `(job: Job) => void` |
+| `fail:<jobName>` | Specific job failed | `(error: Error, job: Job) => void` |
+| `complete:<jobName>` | Specific job completed | `(job: Job) => void` |
+| `cancel:<jobName>` | Specific job cancelled | `(job: Job) => void` |
+
+**Backwards Compatibility**
+
+The typed job names feature is fully backwards compatible. If you don't provide a type parameter, `Agenda` defaults to `string`, allowing any job name:
+
+```typescript
+// This still works exactly as before
+const agenda = new Agenda({
+  db: { address: 'mongodb://localhost:27017/agenda' },
+});
+
+agenda.define('anyJobName', async (job) => {
+  // ...
+});
 ```
 
 
